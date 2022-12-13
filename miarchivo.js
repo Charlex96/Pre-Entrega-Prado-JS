@@ -99,7 +99,55 @@ function valorPorMeses(valor){
         meses = prompt(`Meses a diferir ${'$' + valor} de 12 meses en adelante: `);
     }
 
-    valorMensual = (valor / meses).toFixed(2);
-    alert('$' + valorMensual + ' mesuales');
+    const porcentInteres = 7;
+    let valorMensual = (valor / meses);
+    let interes = (valorMensual) * (porcentInteres / 100);
+    let cuota = Number((interes + valorMensual).toFixed(2));
+
+    let mensuales = [];
+    let fecha = new Date();
+    let mes = fecha.getMonth();
+    let fechaFormato = '';
+    let mesMor = 0;
+
+
+    for (let i = 0; i < meses; i++) {
+        mensuales.push({id: i, mensual: cuota});
+    }
+
+    let totalPago = 0;
+    mensuales.forEach((pagoMensual) => {
+        totalPago += pagoMensual.mensual;
+    });
+
+
+
+    for (const lista of mensuales) {
+
+        mesMor = mes + (lista.id + 1);
+        mesMor
+
+        while (mesMor > 12) {
+            mesMor = mesMor - 12;
+        }
+
+        
+        fechaFormato = `15/${mesMor}`;
+        lista.fecha = fechaFormato;
+
+        console.log('Pago ' + (lista.id + 1) + ': $' + lista.mensual + ' => fecha: ' + lista.fecha);
+
+
+    }
+
+
+
+    alert(`
+    PRESTAMO DE $${valor} CON UN INTERES DEL 7%
+
+    * ${meses} Cuotas de $${cuota} mensuales
+    
+    * Total a pagar: $${totalPago.toFixed(2)}
+    `);
 
 }
